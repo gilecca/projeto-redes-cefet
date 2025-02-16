@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  server:
+    build: .
+    container_name: server
+    ports:
+      - "12345:12345"
+    networks:
+      - socket-network
+
+  client:
+    build: .
+    container_name: client
+    command: python client/client.py
+    stdin_open: true  
+    tty: true         
+    depends_on:
+      - server
+    networks:
+      - socket-network
+
+networks:
+  socket-network:
+    driver: bridge
